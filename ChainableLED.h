@@ -43,6 +43,7 @@ class ChainableLED
 {
 public:
     ChainableLED(byte clk_pin, byte data_pin, byte number_of_leds);
+    ChainableLED(byte clk_pin, byte data_pin, byte number_of_leds, boolean kill_power_on_init);
     ~ChainableLED();
     
     void setColorRGB(byte led, byte red, byte green, byte blue);

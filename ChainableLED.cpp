@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright (C) 2012 Paulo Marques (pjp.marques@gmail.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
@@ -36,7 +36,12 @@ float hue2rgb(float p, float q, float t);
 
 // --------------------------------------------------------------------------------------
 
-ChainableLED::ChainableLED(byte clk_pin, byte data_pin, byte number_of_leds) :
+ChainableLED::ChainableLED(byte clk_pin, byte data_pin, byte number_of_leds) 
+{
+	ChainableLED(clk_pin, data_pin, number_of_leds, true);
+}
+
+ChainableLED::ChainableLED(byte clk_pin, byte data_pin, byte number_of_leds, boolean kill_power_on_init) :
     _clk_pin(clk_pin), _data_pin(data_pin), _num_leds(number_of_leds)
 {
     pinMode(_clk_pin, OUTPUT);
@@ -44,9 +49,12 @@ ChainableLED::ChainableLED(byte clk_pin, byte data_pin, byte number_of_leds) :
   
     _led_state = (byte*) calloc(_num_leds*3, sizeof(byte));
 
-    for (byte i=0; i<_num_leds; i++)
-        setColorRGB(i, 0, 0, 0);
+	if (kill_power_on_init) {
+	    for (byte i=0; i<_num_leds; i++)
+	        setColorRGB(i, 0, 0, 0);
+	}
 }
+
 
 ChainableLED::~ChainableLED()
 {
